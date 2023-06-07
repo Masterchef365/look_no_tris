@@ -36,8 +36,9 @@ void main() {
     vec3 color = vec3(sp_pos - (ray * hit + cam_pos));
 
     vec3 wc = hit * ray;
-    if (hit < 0. && false) {
-        discard;
+    if (hit < 0.) {
+        color = vec3(ray)/10.;
+        gl_FragDepth = 0.999999;
     } else {
         vec3 wc = hit * ray + cam_pos;
         vec4 k = (proj * view * vec4(wc,1));
