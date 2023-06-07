@@ -23,31 +23,6 @@ make_app_state!(ClientState, ServerState);
 const CUBE_HANDLE: MeshHandle = MeshHandle::new(pkg_namespace!("Cube"));
 const CUBE_SHADER: ShaderHandle = ShaderHandle::new(pkg_namespace!("Cube"));
 
-const VERTEX_SRC: &str = r#"
-#version 450
-out vec4 f_color;
-
-// https://www.saschawillems.de/blog/2016/08/13/vulkan-tutorial-on-rendering-a-fullscreen-quad-without-buffers/
-void main() {
-    vec2 uv = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
-    f_color = vec4(uv, 0, 0);
-    gl_Position = vec4(uv.xy * 2.0f + -1.0f, 0.9999999f, 1.0f);
-}
-"#;
-
-const FRAGMENT_SRC: &str = r#"
-#version 450
-precision mediump float;
-
-in vec4 f_color;
-
-out vec4 out_color;
-
-void main() {
-    out_color = f_color;
-}
-"#;
-
 impl UserState for ClientState {
     fn new(io: &mut EngineIo, _sched: &mut EngineSchedule<Self>) -> Self {
         // Make the cube mesh available to the rendering engine
@@ -57,8 +32,8 @@ impl UserState for ClientState {
         });
 
         io.send(&ShaderSource {
-            vertex_src: VERTEX_SRC.into(),
-            fragment_src: FRAGMENT_SRC.into(),
+            vertex_src: include_str!("scene.vert").into(),
+            fragment_src: include_str!("scene.frag").into(),
             id: CUBE_SHADER,
         });
 
