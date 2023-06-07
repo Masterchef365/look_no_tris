@@ -6,6 +6,7 @@ precision mediump float;
 
 in vec4 f_color;
 in mat4 iv;
+in vec3 cam_pos;
 
 out vec4 out_color;
 
@@ -21,6 +22,8 @@ void main() {
         vec3(0.),
         (1. - ray_dir.y) / 2.
     );
+    color = ray_dir;
+    color = cam_pos;
 
     out_color = vec4(color,1);
 }
