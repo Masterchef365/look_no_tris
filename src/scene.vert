@@ -12,6 +12,6 @@ void main() {
     f_color = vec4(uv, 0, 0);
     iv = inverse(proj * mat4(mat3(view)));
     cam_pos = (inverse(view) * vec4(0,0,0,1)).xyz;
-    gl_Position = vec4(uv.xy * 2.0f + -1.0f, 0.9999999f, 1.0f);
+    gl_Position = vec4(uv.xy * 2.0f + -1.0f, 0.0, 1.0f);
 }
 

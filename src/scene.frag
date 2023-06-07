@@ -1,6 +1,9 @@
 #version 450
 precision mediump float;
 
+uniform mat4 view;
+uniform mat4 proj;
+
 //uniform mat4 transf;
 //uniform mat4 extra;
 
@@ -28,8 +31,17 @@ void main() {
     vec3 screenspace_ray = vec3(uv * 2. - 1., 0.2);
     vec3 ray = normalize((iv * vec4(screenspace_ray, 1)).xyz);
 
-    float hit = sphere(ray, vec3(-0.280,0.240,(0.872)) - cam_pos,1.);
+    float hit = sphere(ray, vec3(0,0,1) - cam_pos,1.);
     vec3 color = vec3(fract(hit*88.) > 0.3);
+
+    vec3 wc = hit * ray;
+    if (hit < 0.) {
+        discard;
+    } else {
+        vec3 wc = hit * ray + cam_pos;
+        vec4 k = (proj * view * vec4(wc,1));
+        gl_FragDepth = k.z/k.w;
+    }
 
     out_color = vec4(color,1);
 }
