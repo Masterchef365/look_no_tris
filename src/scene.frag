@@ -35,12 +35,12 @@ void main() {
     vec3 color = vec3(fract(hit*88.) > 0.3);
 
     vec3 wc = hit * ray;
-    if (hit < 0.) {
+    if (hit < 0. && false) {
         discard;
     } else {
         vec3 wc = hit * ray + cam_pos;
         vec4 k = (proj * view * vec4(wc,1));
-        gl_FragDepth = k.z/k.w;
+        gl_FragDepth = (k.z/k.w + 1.) / 2.;
     }
 
     out_color = vec4(color,1);
