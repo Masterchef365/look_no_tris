@@ -31,8 +31,9 @@ void main() {
     vec3 screenspace_ray = vec3(uv * 2. - 1., 0.2);
     vec3 ray = normalize((iv * vec4(screenspace_ray, 1)).xyz);
 
-    float hit = sphere(ray, vec3(0,0,1) - cam_pos,1.);
-    vec3 color = vec3(fract(hit*88.) > 0.3);
+    vec3 sp_pos = vec3(1,0.3,0);
+    float hit = sphere(ray, sp_pos - cam_pos,1.);
+    vec3 color = vec3(sp_pos - (ray * hit + cam_pos));
 
     vec3 wc = hit * ray;
     if (hit < 0. && false) {
